@@ -30,8 +30,8 @@ namespace MbJsonToYaml
         public string Sprite { get; set; }
         
         public TangramLayer(Layer sourceLayer, List<Layer> refLayers)
-        {
-            this.LayerWithSource = sourceLayer;
+        {            
+            this.LayerWithSource = sourceLayer;            
             this.refLayers = refLayers;
 
             if (this.refLayers != null)
@@ -129,7 +129,10 @@ namespace MbJsonToYaml
         {
             string textSource = Helper.ProcessStoppable(source);
 
-            if (textSource == "{name_en}")
+            if (layer.Id == "road_label" && layer.SourceLayer == "transportation_name")
+                return "global.ref_source";
+
+            if (textSource == "{name_en}" || textSource == "{name}")
                 return "global.name_source";
 
             if (textSource.Contains("{"))
@@ -226,14 +229,31 @@ namespace MbJsonToYaml
         {         
             AppendLine("draw:");
             _indent++;
-			
-			if (Color != null && Color.EndsWith("]"))
-            {
-                if (type == "polygons")
-                    type = "polys-blended";
-                else if (type == "lines")
-                    type = "lines-blended";
-            }
+
+            
+
+			if (Color != null)
+			{
+			    int colorStringLength = 0;
+                bool forceBlended = LayerUtils.IsBlendedLayer(LayerWithSource.Id);
+			    if (!forceBlended)
+			    {
+			        if (!Color.Contains(","))
+			            colorStringLength = Color.Length;
+			        else
+			        {
+			            // todo split this kind of thing to get the length of the color strings inside.  "[[5,'#F2934A'],[6,'#fc8']]"
+			        }
+			    }
+
+			    if (forceBlended || colorStringLength > 7) // i.e. longer than #FFFFFF so it has an A component.
+			    {
+			        if (type == "polygons")
+			            type = "polys-blended";
+			        else if (type == "lines")
+			            type = "lines-blended";
+			    }
+			}
             
             AppendLine(type + ":");
             _indent++;

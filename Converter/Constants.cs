@@ -36,6 +36,6 @@
         public const string CustomLinesDash = "lines-dash";
         public const string RailLinesDash = "rail-dash";
 
-        public static readonly string[] IgnoredLayers = { Background, "landcover_", "hillshade_" };
+        public static readonly string[] IgnoredLayers = { Background, "hillshade_" };
     }
 }

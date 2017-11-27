@@ -74,6 +74,13 @@ namespace MbJsonToYaml
             Process();
         }
 
+        private void checkBoxExcludeCommonParts_CheckedChanged(object sender, EventArgs e)
+        {
+            // I have some of these things defined in a common import yaml 
+            _converter.ExcludeCommon = checkBoxExcludeCommonParts.Checked;
+            Process();
+        }
+
         private void checkBoxIncludeSprites_CheckedChanged(object sender, EventArgs e)
         {
             _converter.IncludeSprites = checkBoxIncludeSprites.Checked;
@@ -93,6 +100,6 @@ namespace MbJsonToYaml
                     ReadFile(LibertyFile);
                     break;
             }
-        }
+        }        
     }
 }

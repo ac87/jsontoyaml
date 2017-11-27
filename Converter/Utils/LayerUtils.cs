@@ -260,7 +260,7 @@ namespace MbJsonToYaml.Utils
         {
             string str = "";
             if (layer.Minzoom != null)
-                str = str + $"min: {layer.Minzoom}";
+                str = str + $"min: {layer.Minzoom}";            
             if (layer.Maxzoom != null)
             {
                 string maxStr = $"max: {layer.Maxzoom}";
@@ -301,6 +301,14 @@ namespace MbJsonToYaml.Utils
                 return 5;
 
             return 10;
+        }
+
+        public static bool IsBlendedLayer(string id)
+        {
+            if (id.StartsWith("landcover_") || id.StartsWith("landuse_overlay") || id == "park")
+                return true;
+
+            return false;
         }
     }
 }

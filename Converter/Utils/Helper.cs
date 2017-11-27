@@ -174,7 +174,7 @@ namespace MbJsonToYaml.Utils
 
         private static void ParseZoomAndValue(IList<object> stop, out int zoom, out double value)
         {
-            zoom = (int) Math.Ceiling( stop[0] is double ? (double)stop[0] : double.Parse(stop[0].ToString()) );
+            zoom = (int) Math.Floor( stop[0] is double ? (double)stop[0] : double.Parse(stop[0].ToString()) );
             value = stop[1] is double ? (double)stop[1] : double.Parse(stop[1].ToString());
         }
 

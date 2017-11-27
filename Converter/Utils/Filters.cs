@@ -127,7 +127,7 @@ namespace MbJsonToYaml.Utils
                         }
                         else if (prop == "class")
                         {
-                            Converter.AppendDebug("Class - Not processed - ProcessFilter", filter[0]);
+                            AddFilter(filters, prop, val);                            
                         }
                         else
                         {
@@ -237,11 +237,13 @@ namespace MbJsonToYaml.Utils
                     val = "line";
             }
 
-            if (prop == "class" && val == "trunk"
+            // should have added a comment here. 
+            // this breaks OpenMapTiles but was probably needed for MapBox?
+            /*if (prop == "class" && val == "trunk"
                 || val == "primary" || val == "secondary" || val == "tertiary")
             {
                 prop = "type";
-            }
+            }*/
         }
 
         private static void AdjustZoomLevel(Layer layer, bool isParentCasingGroup)
@@ -261,13 +263,21 @@ namespace MbJsonToYaml.Utils
             if (id.Contains("road") && id.Contains("label"))
                 return;
 
-            if (id.StartsWith("building"))                           
+            if (id.StartsWith("building"))
+            {                
+                if (layer.Minzoom == 13 && layer.Maxzoom == 14)
+                {
+                    // OpenMapTiles has a 3d building layer to appear after 14 but we are ignoring it.                    
+                    layer.Maxzoom = null;
+                }
                 return;
+            }                           
+                
 
             if (id.StartsWith(Motorway) && id.Contains("junction"))
                 return;
 
-            if (id.StartsWith("road") && id.Contains("service") && id.Contains("link") && id.Contains("track"))
+            if (id.StartsWith("road") && (id.Contains("motorway") || id.Contains("service") || id.Contains("link") || id.Contains("track")))
                 return;
 
             // move all down 3 zooms
@@ -277,6 +287,15 @@ namespace MbJsonToYaml.Utils
                 layer.Minzoom = layer.Minzoom + 3;
                 if (layer.Maxzoom != null)
                     layer.Maxzoom = layer.Maxzoom + 3;
+            }
+
+            if (layer.Id.StartsWith("poi_z") && layer.Minzoom < 14) // openmaptiles pois appear way to soon
+            {
+                layer.Minzoom = layer.Minzoom + 2;
+            }
+            else if (layer.Id == "poi_transit" && (layer.Minzoom == null || layer.Minzoom < 16)) // openmaptiles pois appear way to soon
+            {
+                layer.Minzoom = 16;
             }
 
             // if no min

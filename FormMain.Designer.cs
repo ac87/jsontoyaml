@@ -35,13 +35,14 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBoxIncludeSprites = new System.Windows.Forms.CheckBox();
+            this.comboBoxInput = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button5 = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.button4 = new System.Windows.Forms.Button();
             this.checkBoxForceUrl = new System.Windows.Forms.CheckBox();
             this.textBoxDebug = new System.Windows.Forms.TextBox();
-            this.comboBoxInput = new System.Windows.Forms.ComboBox();
+            this.checkBoxExcludeCommonParts = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -150,6 +151,19 @@
             this.checkBoxIncludeSprites.UseVisualStyleBackColor = true;
             this.checkBoxIncludeSprites.CheckedChanged += new System.EventHandler(this.checkBoxIncludeSprites_CheckedChanged);
             // 
+            // comboBoxInput
+            // 
+            this.comboBoxInput.FormattingEnabled = true;
+            this.comboBoxInput.Items.AddRange(new object[] {
+            "Basic (MapBox)",
+            "Bright (MapBox)",
+            "OSM-Liberty (OpenMapTiles)"});
+            this.comboBoxInput.Location = new System.Drawing.Point(3, 3);
+            this.comboBoxInput.Name = "comboBoxInput";
+            this.comboBoxInput.Size = new System.Drawing.Size(200, 21);
+            this.comboBoxInput.TabIndex = 4;
+            this.comboBoxInput.SelectedIndexChanged += new System.EventHandler(this.comboBoxInput_SelectedIndexChanged);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
@@ -183,17 +197,19 @@
             // 
             // tableLayoutPanel4
             // 
-            this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.78947F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.21053F));
+            this.tableLayoutPanel4.ColumnCount = 3;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.63636F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.18182F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.18182F));
             this.tableLayoutPanel4.Controls.Add(this.button4, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.checkBoxForceUrl, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.checkBoxExcludeCommonParts, 2, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(627, 30);
             this.tableLayoutPanel4.TabIndex = 5;
             // 
@@ -211,7 +227,7 @@
             // 
             this.checkBoxForceUrl.AutoSize = true;
             this.checkBoxForceUrl.BackColor = System.Drawing.SystemColors.Control;
-            this.checkBoxForceUrl.Location = new System.Drawing.Point(101, 3);
+            this.checkBoxForceUrl.Location = new System.Drawing.Point(88, 3);
             this.checkBoxForceUrl.Name = "checkBoxForceUrl";
             this.checkBoxForceUrl.Size = new System.Drawing.Size(109, 17);
             this.checkBoxForceUrl.TabIndex = 5;
@@ -229,18 +245,16 @@
             this.textBoxDebug.Size = new System.Drawing.Size(621, 100);
             this.textBoxDebug.TabIndex = 6;
             // 
-            // comboBoxInput
+            // checkBoxExcludeCommonParts
             // 
-            this.comboBoxInput.FormattingEnabled = true;
-            this.comboBoxInput.Items.AddRange(new object[] {
-            "Basic (MapBox)",
-            "Bright (MapBox)",
-            "OSM-Liberty (OpenMapTiles)"});
-            this.comboBoxInput.Location = new System.Drawing.Point(3, 3);
-            this.comboBoxInput.Name = "comboBoxInput";
-            this.comboBoxInput.Size = new System.Drawing.Size(200, 21);
-            this.comboBoxInput.TabIndex = 4;
-            this.comboBoxInput.SelectedIndexChanged += new System.EventHandler(this.comboBoxInput_SelectedIndexChanged);
+            this.checkBoxExcludeCommonParts.AutoSize = true;
+            this.checkBoxExcludeCommonParts.Location = new System.Drawing.Point(358, 3);
+            this.checkBoxExcludeCommonParts.Name = "checkBoxExcludeCommonParts";
+            this.checkBoxExcludeCommonParts.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxExcludeCommonParts.TabIndex = 6;
+            this.checkBoxExcludeCommonParts.Text = "Exclude Common";
+            this.checkBoxExcludeCommonParts.UseVisualStyleBackColor = true;
+            this.checkBoxExcludeCommonParts.CheckedChanged += new System.EventHandler(this.checkBoxExcludeCommonParts_CheckedChanged);
             // 
             // FormMain
             // 
@@ -282,6 +296,7 @@
         private System.Windows.Forms.TextBox textBoxDebug;
         private System.Windows.Forms.CheckBox checkBoxIncludeSprites;
         private System.Windows.Forms.ComboBox comboBoxInput;
+        private System.Windows.Forms.CheckBox checkBoxExcludeCommonParts;
     }
 }
 
