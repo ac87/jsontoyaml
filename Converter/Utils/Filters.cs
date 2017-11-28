@@ -289,13 +289,13 @@ namespace MbJsonToYaml.Utils
                     layer.Maxzoom = layer.Maxzoom + 3;
             }
 
-            if (layer.Id.StartsWith("poi_z") && layer.Minzoom < 14) // openmaptiles pois appear way to soon
+            if (layer.Id.StartsWith("poi_z") && layer.Minzoom < 18) // openmaptiles pois appear way to soon
             {
                 layer.Minzoom = layer.Minzoom + 2;
             }
-            else if (layer.Id == "poi_transit" && (layer.Minzoom == null || layer.Minzoom < 16)) // openmaptiles pois appear way to soon
+            else if (layer.Id == "poi_transit" && (layer.Minzoom == null || layer.Minzoom < 17)) // openmaptiles pois appear way to soon
             {
-                layer.Minzoom = 16;
+                layer.Minzoom = 17;
             }
 
             // if no min

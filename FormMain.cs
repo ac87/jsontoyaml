@@ -22,7 +22,7 @@ namespace MbJsonToYaml
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBoxInput.SelectedIndex = 0;
+            comboBoxInput.SelectedIndex = 2;
         }
 
         private void ReadFile(string style)

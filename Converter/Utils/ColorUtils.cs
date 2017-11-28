@@ -13,18 +13,10 @@ namespace MbJsonToYaml.Utils
             {
                 if (opacity.Stops == null)
                 {
-                    Color color;
+                    Color color = ColorFromString(val);
+                    color = Blend(color, opacity.SingleVal);
 
-                    if (val.StartsWith("rgba"))
-                        color = ColorFromRGBA(val);
-                    else if (val.StartsWith("hsla"))
-                        color = ColorFromHSLA(val);
-                    else if (val.StartsWith("hsl"))
-                        color = ColorFromHSL(val);
-                    else
-                        color = ColorTranslator.FromHtml(val);
-
-                    return $"[{NumToString(color.R)},{NumToString(color.G)},{NumToString(color.B)},{opacity.SingleVal:0.###}]";
+                    return $"[{NumToString(color.R)},{NumToString(color.G)},{NumToString(color.B)}]";
                 }
             }           
 
@@ -50,7 +42,17 @@ namespace MbJsonToYaml.Utils
             double multiplier = double.Parse(split[3]);
             int alpha = (int)(255 * multiplier);
 
-            return Color.FromArgb(alpha, int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]));
+            Color color = Color.FromArgb(255, int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]));
+
+            return Blend(color, (double)alpha / 255);
+        }
+
+        private static Color ColorFromRGB(string val)
+        {
+            val = val.Substring(4, val.Length - 5);
+            var split = val.Split(',');            
+
+            return Color.FromArgb(255, int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]));
         }
 
         private static Color ColorFromHSLA(string val)
@@ -64,7 +66,9 @@ namespace MbJsonToYaml.Utils
 
             int a = (int)(double.Parse(split[3]) * 255);
 
-            return ColorFromAhsb(a, h, s, l);
+            Color color = ColorFromAhsb(a, h, s, l);
+
+            return Blend(color, (double)a / 255);
         }
 
         private static Color ColorFromHSL(string val)
@@ -140,6 +144,41 @@ namespace MbJsonToYaml.Utils
                 default:
                     return Color.FromArgb(a, iMax, iMid, iMin);
             }
+        }
+
+        public static Color BackgroundColor { get; set; } = Color.Beige;
+
+        /// <summary>Blends the specified colors together.</summary>
+        /// <param name="color">Color to blend onto the background color.</param>
+        /// <param name="backColor">Color to blend the other color onto.</param>
+        /// <param name="amount">How much of <paramref name="color"/> to keep,
+        /// “on top of” <paramref name="backColor"/>.</param>
+        /// <returns>The blended colors.</returns>
+        public static Color Blend(Color color, double amount)
+        {
+            byte r = (byte)((color.R * amount) + BackgroundColor.R * (1 - amount));
+            byte g = (byte)((color.G * amount) + BackgroundColor.G * (1 - amount));
+            byte b = (byte)((color.B * amount) + BackgroundColor.B * (1 - amount));
+            return Color.FromArgb(r, g, b);
+        }
+
+        public static Color ColorFromString(string val)
+        {
+            val = val.Trim(new char[] {'\''});
+
+            Color color;
+            if (val.StartsWith("rgba"))
+                color = ColorFromRGBA(val);
+            else if (val.StartsWith("rgb"))
+                color = ColorFromRGB(val);            
+            else if (val.StartsWith("hsla"))
+                color = ColorFromHSLA(val);
+            else if (val.StartsWith("hsl"))
+                color = ColorFromHSL(val);
+            else
+                color = ColorTranslator.FromHtml(val);
+
+            return color;
         }
     }
 }

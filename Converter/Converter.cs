@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
@@ -70,6 +71,12 @@ namespace MbJsonToYaml.Utils
 
             if (layers != null && layers.Count > 0)
             {
+                foreach (var layer in layers)
+                {
+                    if (layer.Id.EndsWith("-copy")) // road_minor-copy in OSM Liberty.. pretty sure it wasn't supposed to include '-copy'
+                        layer.Id = layer.Id.Replace("-copy", "");
+                }
+
                 AppendLine("layers:");
                 _indent = 1;
 
@@ -194,8 +201,13 @@ namespace MbJsonToYaml.Utils
                     // background colors don't do stops
                     string color = backgroundLayer.Paint.BackgroundColor as string;
                     if (backgroundLayer.Paint.BackgroundColor is JObject)                    
-                        color = ((JObject)backgroundLayer.Paint.BackgroundColor).Last.Last.Last.Last.ToString();                    
-                    AppendLine($"color: {Helper.ProcessColor(color, null)}");
+                        color = ((JObject)backgroundLayer.Paint.BackgroundColor).Last.Last.Last.Last.ToString();
+
+                    string colorStr = Helper.ProcessColor(color, null);                    
+                    AppendLine($"color: " + colorStr);
+
+                    // use this for blending to turn ARGB colors to RBG
+                    ColorUtils.BackgroundColor = ColorUtils.ColorFromString(colorStr);
                 }
             }
 

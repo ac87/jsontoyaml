@@ -145,7 +145,7 @@ namespace MbJsonToYaml.Utils
         {
             foreach (var layerWithSource in layerWithSourceList)
             {
-                bool isCasing = IsCasing(layerWithSource.Id);
+                bool isCasing = IsCasing(layerWithSource.Id);                
 
                 List<Layer> refLayers = null;
                 if (layerWithSource.Ref == null)
@@ -182,6 +182,14 @@ namespace MbJsonToYaml.Utils
                         refLayers.Add(realLayers[0]);
                         usedLayers.Add(realLayers[0]);
                     }
+                }
+
+                // to join OpenMapTiles casing and regular road layers together as we need to specify width for lines with outlines
+                if (layerWithSource.Id.EndsWith("_casing") && refLayers.Count == 0)
+                {
+                    var lineWidthLayers = layerWithSourceList.Where(item => item.Id == layerWithSource.Id.Replace("_casing", "")).ToList();
+                    if (lineWidthLayers.Count == 1)
+                        refLayers.Add(lineWidthLayers[0]);
                 }
 
                 TangramLayer tangramLayer = new TangramLayer(layerWithSource, refLayers);
@@ -305,8 +313,8 @@ namespace MbJsonToYaml.Utils
 
         public static bool IsBlendedLayer(string id)
         {
-            if (id.StartsWith("landcover_") || id.StartsWith("landuse_overlay") || id == "park")
-                return true;
+            //if (id.StartsWith("landcover_") || id.StartsWith("landuse_overlay") || id == "park")
+            //    return true;
 
             return false;
         }
