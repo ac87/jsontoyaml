@@ -70,13 +70,13 @@ namespace MbJsonToYaml.Utils
                 return 4;
 
             if (id.EndsWith("park")) // parks have to be below water.
-                return 2;
+                return 3;
 
             if (id == "school")
                 return 1;
 
-            if (layer.SourceLayer == "landuse")
-                return 3;
+            if (layer.SourceLayer == "landuse" || id.StartsWith("landcover_"))
+                return 2;
 
             if (id.Contains("building"))
                 return 30;
