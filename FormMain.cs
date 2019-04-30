@@ -28,8 +28,11 @@ namespace MbJsonToYaml
         private void ReadFile(string style)
         {
             _style = style;
+            var style_name = _style + ".json";
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Styles", _style , style_name);
+            var lines = File.ReadAllLines(path);
 
-            var lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Styles\" + _style + "\\" + _style + ".json");
+            //var lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + @"\Styles\" + _style + "\\" + _style + ".json");
             textBoxIn.Lines = lines;
             Process();
         }

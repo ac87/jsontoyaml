@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -349,8 +350,10 @@ namespace MbJsonToYaml.Utils
                 AppendLine("filtering: mipmap");
                 AppendLine("sprites:");
                 _indent++;
-
-                var sprites = SpriteConverter.GetSprites($"{AppDomain.CurrentDomain.BaseDirectory}\\Styles\\{style}\\sprite\\{style}{variant}.json");
+                var style_name = style + variant + ".json";
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Styles", style,"sprite",style_name);
+                var sprites = SpriteConverter.GetSprites(path);
+                //var sprites = SpriteConverter.GetSprites($"{AppDomain.CurrentDomain.BaseDirectory}\\Styles\\{style}\\sprite\\{style}{variant}.json");
                 foreach (var sprite in sprites)                
                     AppendLine($"{sprite.Name}: [{sprite.X},{sprite.Y},{sprite.Width},{sprite.Height}]");
 
